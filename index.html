@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Example</title>
+
+<style>
+:root {
+  --accent: #6f5bff;
+
+  --bg-dark: #0e0e11;
+  --card-dark: #1b1b24;
+  --text-dark: #f2f2f2;
+  --muted-dark: #aaa;
+
+  --bg-light: #f4f4f4;
+  --card-light: #ffffff;
+  --text-light: #111;
+  --muted-light: #555;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-dark);
+  transition: 0.3s;
+}
+
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+
+.toggle-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+}
+
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+
+.episode-title {
+  font-size: 26px;
+  margin-bottom: 6px;
+}
+
+.episode-desc {
+  font-size: 15px;
+  color: var(--muted-dark);
+  margin-bottom: 20px;
+}
+
+
+.player {
+  background: var(--card-dark);
+  padding: 18px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.controls button {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress {
+  flex: 1;
+  height: 14px;
+  background: #2d2d3a;
+  border-radius: 7px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+}
+
+.time {
+  font-size: 14px;
+  color: var(--muted-dark);
+  width: 48px;
+  text-align: right;
+}
+
+
+.transcript {
+  margin-top: 30px;
+  background: var(--card-dark);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.transcript h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.transcript-toggle {
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 14px;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+.transcript-content {
+  line-height: 1.7;
+  font-size: 15px;
+  color: var(--muted-dark);
+  display: none;
+}
+
+
+.footer {
+  margin-top: 50px;
+  padding: 25px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted-dark);
+  border-top: 1px solid #333;
+}
+
+
+body.light {
+  background: var(--bg-light);
+  color: var(--text-light);
+}
+
+body.light .player,
+body.light .transcript {
+  background: var(--card-light);
+}
+
+body.light .episode-desc,
+body.light .time,
+body.light .transcript-content,
+body.light .footer {
+  color: var(--muted-light);
+}
+
+body.light .progress {
+  background: #ddd;
+}
+</style>
+</head>
+
+<body>
+
+
+<div class="header">
+  <h2>Test</h2>
+  <button class="toggle-btn" id="toggleMode">🌙 Dark Mode</button>
+</div>
+
+<div class="container">
+
+  <div class="episode-title">Test</div>
+  <div class="episode-desc">
+    Test
+  </div>
+
+  <audio id="audio" src="episode1.mp3"></audio>
+
+
+  <div class="player">
+    <div class="controls">
+      <button id="rewind">⏮</button>
+      <button id="play">▶</button>
+      <button id="forward">⏭</button>
+    </div>
+
+    <div class="progress-row">
+      <div class="progress" id="progressContainer">
+        <span id="progressBar"></span>
+      </div>
+      <div class="time" id="time">0:00</div>
+    </div>
+  </div>
+
+  
+  <div class="transcript">
+    <h3>Test (EP SCRIPT)</h3>
+    <span class="transcript-toggle" id="toggleTranscript">
+      Show Script ▼
+    </span>
+
+    <div class="transcript-content" id="transcriptContent">
+      <p><strong>Host:</strong> Welcome to our podcast! Today we’ll talk about...(ex)</p>
+      <p><strong>Guest:</strong> Thank you for having me. This topic is important because...(ex))</p>
+      <p><strong>Host:</strong> Let’s start with the first question... (ex)</p>
+
+      
+    </div>
+  </div>
+
+</div>
+
+
+<div class="footer">
+ @by Group 2<br>
+</div>
+
+<script>
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("play");
+const rewindBtn = document.getElementById("rewind");
+const forwardBtn = document.getElementById("forward");
+const progressContainer = document.getElementById("progressContainer");
+const progressBar = document.getElementById("progressBar");
+const time = document.getElementById("time");
+const toggleBtn = document.getElementById("toggleMode");
+const transcriptToggle = document.getElementById("toggleTranscript");
+const transcriptContent = document.getElementById("transcriptContent");
+
+/* PLAY */
+playBtn.onclick = () => {
+  if (audio.paused) {
+    audio.play();
+    playBtn.textContent = "❚❚";
+  } else {
+    audio.pause();
+    playBtn.textContent = "▶";
+  }
+};
+
+/* SKIP */
+rewindBtn.onclick = () => audio.currentTime = Math.max(0, audio.currentTime - 10);
+forwardBtn.onclick = () => audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
+
+/* SEEK */
+progressContainer.onclick = (e) => {
+  const rect = progressContainer.getBoundingClientRect();
+  audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+};
+
+/* UPDATE */
+audio.ontimeupdate = () => {
+  if (!audio.duration) return;
+  progressBar.style.width = (audio.currentTime / audio.duration) * 100 + "%";
+  const m = Math.floor(audio.currentTime / 60);
+  const s = Math.floor(audio.currentTime % 60).toString().padStart(2, "0");
+  time.textContent = `${m}:${s}`;
+};
+
+/* DARK MODE */
+toggleBtn.onclick = () => {
+  document.body.classList.toggle("light");
+  toggleBtn.textContent = document.body.classList.contains("light")
+    ? "☀ Light Mode"
+    : "🌙 Dark Mode";
+};
+
+/* TRANSCRIPT TOGGLE */
+transcriptToggle.onclick = () => {
+  const open = transcriptContent.style.display === "block";
+  transcriptContent.style.display = open ? "none" : "block";
+  transcriptToggle.textContent = open ? "Show Script ▼" : "Hide Script ▲";
+};
+</script>
+
+</body>
+</html>
