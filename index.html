@@ -194,18 +194,18 @@ body.light .progress {
 
 
 <div class="header">
-  <h2>Test</h2>
+  <h2>Podcast</h2>
   <button class="toggle-btn" id="toggleMode">🌙 Dark Mode</button>
 </div>
 
 <div class="container">
 
-  <div class="episode-title">Test</div>
+  <div class="episode-title">"A Mistake We All Carried"</div>
   <div class="episode-desc">
-    Test
+    “A Mistake We All Carried” is a story about a Grade 9 classroom event on February 20, 2023, where one student’s mistake affected everyone and revealed different reactions of anger, guilt, and forgiveness. 
   </div>
 
-  <audio id="audio" src="episode1.mp3"></audio>
+  <audio id="audio" src="episode2.mp3"></audio>
 
 
   <div class="player">
@@ -225,25 +225,32 @@ body.light .progress {
 
   
   <div class="transcript">
-    <h3>Test (EP SCRIPT)</h3>
+    <h3>Transcript</h3>
     <span class="transcript-toggle" id="toggleTranscript">
       Show Script ▼
     </span>
 
     <div class="transcript-content" id="transcriptContent">
-      <p><strong>Host:</strong> Welcome to our podcast! Today we’ll talk about...(ex)</p>
-      <p><strong>Guest:</strong> Thank you for having me. This topic is important because...(ex))</p>
-      <p><strong>Host:</strong> Let’s start with the first question... (ex)</p>
-
-      
-    </div>
+      <p><strong>MELCHIZEDEK:</strong> There are moments in school you never forget—
+not because of lessons written on the board, but because of what breaks inside a room full of people. This is the story of one mistake… and three different ways we carried it.</p>
+      <p><strong>MELCHIZEDEK:</strong> The first thing I noticed was the noise—chairs scraping the floor,
+voices cracking,crying mixed with shouting. The sound bounced off the walls, too loud, too close. Someone said, “Failure. We’re all getting no grade this quarter.” My chest tightened. One mistake. One decision. And suddenly, it belonged to everyone. People were yelling. Blaming. Pointing. I wanted to be angry too. I had every right to be. Then I saw someone crying. I walked toward her, my hands shaking. When I wiped her face, her tears soaked into my skin. “It’s okay,” I whispered— even though I didn’t believe it myself.</p>
+      <p><strong>CYE:</strong> Why should we understand her? We worked hard. We followed the rules. And because of her, everything was gone. I remember saying, “She knew what she was doing.” And I meant it. People kept telling me to calm down— to think about her situation. But why did no one think about ours? Anger felt fair. Hatred felt deserved.
+Forgiveness? That felt like letting her escape.</p>
+<p><strong>ANYA :</strong> At first... I didn’t care. Or maybe I pretended not to. I blamed the teacher. The system. The group. Anyone but myself. I expected him—the one who always tried to understand— to yell at me too. I was ready for his anger. But he wasn’t shouting. He was crying. That’s when I realized… my actions didn’t just affect grades. They hurt him. He had helped me before. Helped take care of my daughter when I was too young, too tired, too overwhelmed. And now, because of me, he was hurting. I couldn’t defend myself anymore.</p>
+<p><strong>MELCHIZEDEK:</strong> Later, when the room had emptied, I stood in front of her. “I’m disappointed,” I said. “What you did hurt all of us.” “But I won’t hate you.”</p>
+      <p><strong>ANYA:</strong> I waited for anger. For rejection. But he forgave me. Not because I deserved it— but because he chose peace. And somehow… that hurt more than punishment.</p>
+    
+    <p><strong>MELCHIZEDEK:</strong> The mistake didn’t disappear. The consequences stayed. Some never forgave her. And I understood them. We were in the same grade, in the same classroom— but we were not living the same life. I forgave her.
+But I didn’t forget. Because forgiveness isn’t erasing the past— it’s choosing not to add hatred to a life already heavy with mistakes.
+</p>
+    
   </div>
 
 </div>
 
-
 <div class="footer">
- @by Group 2<br>
+ @By Group 2<br>
 </div>
 
 <script>
@@ -258,7 +265,7 @@ const toggleBtn = document.getElementById("toggleMode");
 const transcriptToggle = document.getElementById("toggleTranscript");
 const transcriptContent = document.getElementById("transcriptContent");
 
-/* PLAY */
+
 playBtn.onclick = () => {
   if (audio.paused) {
     audio.play();
@@ -269,17 +276,17 @@ playBtn.onclick = () => {
   }
 };
 
-/* SKIP */
+
 rewindBtn.onclick = () => audio.currentTime = Math.max(0, audio.currentTime - 10);
 forwardBtn.onclick = () => audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
 
-/* SEEK */
+
 progressContainer.onclick = (e) => {
   const rect = progressContainer.getBoundingClientRect();
   audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
 };
 
-/* UPDATE */
+
 audio.ontimeupdate = () => {
   if (!audio.duration) return;
   progressBar.style.width = (audio.currentTime / audio.duration) * 100 + "%";
@@ -288,7 +295,7 @@ audio.ontimeupdate = () => {
   time.textContent = `${m}:${s}`;
 };
 
-/* DARK MODE */
+
 toggleBtn.onclick = () => {
   document.body.classList.toggle("light");
   toggleBtn.textContent = document.body.classList.contains("light")
@@ -296,11 +303,11 @@ toggleBtn.onclick = () => {
     : "🌙 Dark Mode";
 };
 
-/* TRANSCRIPT TOGGLE */
+
 transcriptToggle.onclick = () => {
   const open = transcriptContent.style.display === "block";
   transcriptContent.style.display = open ? "none" : "block";
-  transcriptToggle.textContent = open ? "Show Script ▼" : "Hide Script ▲";
+  transcriptToggle.textContent = open ? "Show Script▼" : "Hide Script ▲";
 };
 </script>
 
